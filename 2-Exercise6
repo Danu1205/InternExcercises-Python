@@ -1,0 +1,12 @@
+import pandas as pd
+prod=pd.Series(
+    [100,200,300,400],
+    index=["appple","ball","carrot","doll"]
+    )
+print("MAX:", prod.max())
+print("MIN: ",prod.min())
+
+print(prod[prod>250])
+
+prod.index=prod.index.str.upper()
+print(prod)
