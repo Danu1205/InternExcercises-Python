@@ -1,0 +1,15 @@
+import numpy as np
+arr=np.array([10, 45, 67, 89, 32, 56, 77, 90, 12])
+def q1(arr):
+    print(arr[arr>40])
+def q2(arr):
+    print(arr[(arr>=50)&(arr<=80)])
+def q3(arr):
+    arr[arr<40]=0
+    print(arr)
+def q4(arr):
+    return np.sum(arr>50)
+q1(arr)
+q2(arr)
+q3(arr)
+print(q4(arr))
