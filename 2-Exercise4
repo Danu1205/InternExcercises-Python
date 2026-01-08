@@ -1,0 +1,12 @@
+import numpy as np
+arr=np.arange(1,100001)
+
+def q1(arr):
+    result =arr.copy()
+    for i in range(len(arr)):
+        result[i]=result[i]**2
+    return result
+def q2(arr):
+    return arr**2
+%timeit q1(arr)
+%timeit q2(arr)
