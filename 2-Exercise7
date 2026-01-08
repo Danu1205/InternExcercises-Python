@@ -1,0 +1,21 @@
+import pandas as pd
+df= pd.DataFrame({
+    "name": ["A","B","C","D","E","F"],
+    "age": [29,33,20,51,35,44],
+    "gender":["male","female","female","male","female","male"],
+    "score": [9,6,8,7,8,6]
+    })
+print(df.head())
+print(df.tail())
+print(df.describe())
+print(df.sort_values(by="score", ascending = False))
+print(df[df["score"]>80])
+def grade(score):
+    if score >= 90:
+        return "A"
+    elif score >= 80:
+        return "B"
+    else:
+        return "C"
+df["grade"] = df["score"].apply(grade)
+print(df)
