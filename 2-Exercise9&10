@@ -1,0 +1,20 @@
+import pandas as pd
+import numpy as np
+df = pd.read_csv("students.csv")
+print(df)
+print(df.isna())
+print(df.isna().sum())
+df["Age"] = pd.to_numeric(df["Age"], errors="coerce")
+df["Age"].fillna(df["Age"].mean(), inplace=True)
+df["Marks"] = pd.to_numeric(df["Marks"], errors="coerce")
+df["Marks"].fillna(df["Marks"].mean(), inplace=True)
+df["City"].fillna("Unknown", inplace=True)
+df.drop_duplicates(inplace=True)
+df["Name"] = df["Name"].str.title()
+print(df.describe())
+print(df.sort_values(by="Marks", ascending=False).head(3))
+df["Pass/Fail"] = np.where(df["Marks"] >= 40, "Pass", "Fail")
+df["Marks"] = df["Marks"] + 5
+df.drop(columns=["City"], inplace=True)
+df.rename(columns={"Marks": "Score"}, inplace=True)
+df["Age"] = df["Age"].astype(int)
