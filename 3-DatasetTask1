@@ -1,0 +1,52 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+df= pd.read_csv("StudentsPerformance.csv")
+df.head()
+df.columns
+#histo
+plt.figure(figsize=(6,4))
+plt.hist(df['math score'],bins=10)
+plt.title("Distribution of math score")
+plt.xlabel("Math Score")
+plt.xlabel("No.of students")
+plt.show()
+#bar
+plt.figure()
+gender_counts = df['gender'].value_counts()
+plt.bar(gender_counts.index, gender_counts.values)
+plt.title("Student by Gender")
+plt.xlabel("Gender")
+plt.xlabel("Count")
+plt.show()
+#scatter
+
+plt.figure()
+plt.scatter(df["reading score"],df["math score"])
+plt.title("Reading vs Math score")
+plt.xlabel("Reading Score")
+plt.xlabel("Math Score")
+plt.show()
+#line
+subjects=["Math","Reading","Writing"]
+avg_scores=[
+    df["math score"].mean(),
+    df["reading score"].mean(),
+    df["writing score"].mean()
+]
+plt.figure()
+plt.plot(subjects,avg_scores)
+plt.title("AVG Score")
+plt.xlabel("Subj")
+plt.xlabel("Avg score")
+plt.show()
+#box
+plt.figure
+plt.boxplot(
+    [df["math score"],df["reading score"],df["writing score"]],
+    labels=["Math","Reading","Writing"]
+)
+plt.title("Score distribution")
+plt.xlabel("Subj")
+plt.xlabel("Score")
+plt.show()
+
