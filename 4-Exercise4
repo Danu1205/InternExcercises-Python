@@ -1,0 +1,88 @@
+# PART 4 — Algorithmic Thinking Exercises
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+# 1) NumPy-based Algorithm: Feature Normalization
+def normalize_feature(x):
+    return (x - x.mean()) / x.std()
+
+
+# Example usage
+hours = np.array([1, 2, 3, 4, 5])
+assignments = np.array([5, 7, 10, 12, 15])
+attendance = np.array([70, 75, 80, 85, 90])
+
+hours_norm = normalize_feature(hours)
+assignments_norm = normalize_feature(assignments)
+attendance_norm = normalize_feature(attendance)
+
+print("Normalized Hours:", hours_norm)
+print("Normalized Assignments:", assignments_norm)
+print("Normalized Attendance:", attendance_norm)
+
+
+# 2) Pandas Algorithm: Remove Outliers Automatically using IQR
+def remove_outliers_iqr(df):
+    Q1 = df.quantile(0.25)
+    Q3 = df.quantile(0.75)
+    IQR = Q3 - Q1
+    return df[~((df < (Q1 - 1.5 * IQR)) | (df > (Q3 + 1.5 * IQR))).any(axis=1)]
+
+
+# Example usage
+df = pd.DataFrame({
+    "Income": [30000, 35000, 40000, 1000000],
+    "Spend": [4000, 4500, 5000, 90000]
+})
+
+clean_df = remove_outliers_iqr(df)
+print("\nData after removing outliers:")
+print(clean_df)
+
+
+# 3) Mini EDA Algorithm
+def auto_eda(df):
+    print("\nMissing Values:")
+    print(df.isnull().sum())
+
+    print("\nDuplicate Rows:", df.duplicated().sum())
+
+    print("\nCorrelation Matrix:")
+    print(df.corr())
+
+    corr_pairs = (
+        df.corr()
+        .abs()
+        .unstack()
+        .sort_values(ascending=False)
+        .drop_duplicates()
+    )
+
+    print("\nTop 3 strongest feature relationships:")
+    print(corr_pairs[1:4])
+
+
+# Example usage
+auto_eda(clean_df)
+
+
+# 4) Visualization Algorithm
+def auto_visualize(df):
+    for col in df.columns:
+        if df[col].dtype != 'object':
+            df[col].plot(kind='hist', title=f"Histogram of {col}")
+            plt.show()
+
+            df.boxplot(column=col)
+            plt.title(f"Boxplot of {col}")
+            plt.show()
+        else:
+            df[col].value_counts().plot(kind='bar', title=f"Countplot of {col}")
+            plt.show()
+
+
+# Example usage
+auto_visualize(clean_df)
