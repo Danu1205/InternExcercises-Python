@@ -1,0 +1,27 @@
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+
+# Dataset
+df = pd.DataFrame({
+    "Marketing_Spend": [50, 60, 55, 300, 58],
+    "Employees": [10, 12, 11, 50, 12],
+    "Product_Price": [100, 120, 110, 115, 108],
+    "Revenue": [500, 620, 580, 5000, 600]
+})
+
+# Detect outliers using IQR
+Q1 = df.quantile(0.25)
+Q3 = df.quantile(0.75)
+IQR = Q3 - Q1
+df_clean = df[~((df < (Q1 - 1.5*IQR)) | (df > (Q3 + 1.5*IQR))).any(axis=1)]
+
+# Prepare data
+X = df_clean[["Marketing_Spend", "Employees", "Product_Price"]]
+y = df_clean["Revenue"]
+
+# Train model
+model = LinearRegression()
+model.fit(X, y)
+
+# Evaluation insight
+print("Coefficients:", model.coef_)
