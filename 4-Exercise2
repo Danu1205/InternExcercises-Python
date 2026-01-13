@@ -1,0 +1,59 @@
+#Import required library
+import numpy as np
+import matplotlib.pyplot as plt
+
+#Create dataset and convert to NumPy arrays
+data = np.array([
+    [1, 5, 70, 40],
+    [2, 7, 75, 50],
+    [3, 10, 80, 60],
+    [4, 12, 85, 70],
+    [5, 15, 90, 80]
+])
+
+X = data[:, :3]
+y = data[:, 3]
+
+#Normalize features
+X_mean = X.mean(axis=0)
+X_std = X.std(axis=0)
+X = (X - X_mean) / X_std
+
+#Initialize parameters
+m = np.zeros(X.shape[1])
+c = 0
+learning_rate = 0.01
+epochs = 1000
+losses = []
+
+#Gradient Descent (vectorized)
+n = len(y)
+for _ in range(epochs):
+    y_pred = X.dot(m) + c
+    loss = np.mean((y - y_pred) ** 2)
+    losses.append(loss)
+
+    dm = (-2 / n) * X.T.dot(y - y_pred)
+    dc = (-2 / n) * np.sum(y - y_pred)
+
+    m -= learning_rate * dm
+    c -= learning_rate * dc
+
+#Plot loss vs epochs
+plt.plot(losses)
+plt.xlabel("Epochs")
+plt.ylabel("Mean Squared Error")
+plt.title("Loss vs Epochs")
+plt.show()
+
+#Prediction function
+def predict(input_features):
+    input_features = (input_features - X_mean) / X_std
+    return input_features.dot(m) + c
+
+#Predict marks for given inputs
+print("Prediction for 4 hours, 12 assignments, 85% attendance:",
+      predict(np.array([4, 12, 85])))
+
+print("Prediction for 6 hours, 15 assignments, 92% attendance:",
+      predict(np.array([6, 15, 92])))
