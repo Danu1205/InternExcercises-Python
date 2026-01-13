@@ -1,0 +1,25 @@
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+
+# Dataset
+df = pd.DataFrame({
+    "Temperature": [28, 30, 26, 32, 27],
+    "Humidity": [60, 65, 55, 70, 58],
+    "Appliances_On": [4, 5, 3, 6, 4],
+    "Energy_Consumed": [220, 250, 180, 300, 210]
+})
+
+# Correlation analysis
+print(df.corr())
+
+# Prepare data
+X = df[["Temperature", "Humidity", "Appliances_On"]]
+y = df["Energy_Consumed"]
+
+# Train model
+model = LinearRegression()
+model.fit(X, y)
+
+# Prediction
+print("Predicted Energy:",
+      model.predict([[31, 63, 5]]))
