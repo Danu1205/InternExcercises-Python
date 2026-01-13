@@ -1,0 +1,23 @@
+from sklearn.datasets import load_iris
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+
+# Load data
+iris = load_iris()
+X = iris.data[:, 1:]   # all except sepal_length
+y = iris.data[:, 0]    # sepal_length
+
+# Train model
+model = LinearRegression()
+model.fit(X, y)
+
+# Predict and residuals
+y_pred = model.predict(X)
+residuals = y - y_pred
+
+# Plot residuals
+plt.scatter(y_pred, residuals)
+plt.axhline(0)
+plt.xlabel("Predicted")
+plt.ylabel("Residuals")
+plt.show()
