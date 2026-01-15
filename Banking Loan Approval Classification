@@ -1,0 +1,39 @@
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+data = {
+    "Income": [30, 45, 60, 25, 80, 55, 40, 90, 35, 70, 65, 50],
+    "Age": [22, 35, 45, 28, 50, 42, 30, 55, 26, 48, 46, 38],
+    "CreditScore": [600, 650, 720, 580, 780, 700, 640, 820, 610, 750, 730, 680],
+    "ExistingLoans": [2, 1, 0, 3, 0, 1, 2, 0, 2, 0, 1, 1],
+    "EmploymentStability": [1, 3, 4, 1, 5, 4, 2, 5, 2, 4, 4, 3],
+    "Repay": [0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1]
+}
+df = pd.DataFrame(data)
+print(df)
+X = df.drop("Repay", axis=1)
+y = df["Repay"]
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, random_state=42
+)
+#Logistic Regression
+model = LogisticRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+
+#Evaluation
+print("\nAccuracy:", accuracy_score(y_test, y_pred))
+print("\nConfusion Matrix:\n", confusion_matrix(y_test, y_pred))
+print("\nClassification Report:\n", classification_report(y_test, y_pred))
+coefficients = pd.DataFrame({
+    "Feature": X.columns,
+    "Coefficient": model.coef_[0]
+})
+
+# Absolute value shows strength of impact
+coefficients["ImpactStrength"] = coefficients["Coefficient"].abs()
+coefficients = coefficients.sort_values(by="ImpactStrength", ascending=False)
+print("\nFeature Impact (Sorted):\n")
+print(coefficients)
