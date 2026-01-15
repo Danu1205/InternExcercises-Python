@@ -1,0 +1,25 @@
+from sklearn.metrics import confusion_matrix, classification_report
+import numpy as np
+import pandas as pd
+pred = model.predict(X_test)
+cm = confusion_matrix(y_test, pred)
+print("Confusion Matrix:\n", cm)
+print("\nClassification Report:\n")
+print(classification_report(y_test, pred, target_names=iris.target_names))
+
+# Extract precision & recall programmatically
+report_dict = classification_report(
+    y_test, pred, target_names=iris.target_names, output_dict=True
+)
+
+report_df = pd.DataFrame(report_dict).transpose()
+print("\nReport as DataFrame:\n")
+print(report_df)
+
+#Species with best precision
+best_precision_species = report_df['precision'][:-3].idxmax()
+print("\nSpecies with BEST precision:", best_precision_species)
+
+#Species with lowest recall
+lowest_recall_species = report_df['recall'][:-3].idxmin()
+print("Species with LOWEST recall:", lowest_recall_species)
