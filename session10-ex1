@@ -1,0 +1,54 @@
+yes = 7
+no = 3
+total = yes + no
+
+
+# Calculate Class Probabilities
+p_yes = yes / total
+p_no = no / total
+
+
+# Calculate Gini Impurity
+gini = 1 - (p_yes ** 2 + p_no ** 2)
+print("Gini Impurity:", gini)
+
+
+# Calculate Entropy
+import math
+
+entropy = - (p_yes * math.log2(p_yes) + p_no * math.log2(p_no))
+print("Entropy:", entropy)
+
+
+# Split Based on Gender
+# Male   -> Yes = 3, No = 2
+# Female -> Yes = 4, No = 1
+male_yes, male_no = 3, 2
+female_yes, female_no = 4, 1
+
+male_total = male_yes + male_no
+female_total = female_yes + female_no
+
+
+# Calculate Entropy for Each Group
+entropy_male = - (
+    (male_yes / male_total) * math.log2(male_yes / male_total) +
+    (male_no / male_total) * math.log2(male_no / male_total)
+)
+
+entropy_female = - (
+    (female_yes / female_total) * math.log2(female_yes / female_total) +
+    (female_no / female_total) * math.log2(female_no / female_total)
+)
+
+
+# Calculate Weighted Entropy After Split
+weighted_entropy = (
+    (male_total / total) * entropy_male +
+    (female_total / total) * entropy_female
+)
+
+
+# Calculate Information Gain
+information_gain = entropy - weighted_entropy
+print("Information Gain (Gender Split):", information_gain)
