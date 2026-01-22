@@ -1,0 +1,20 @@
+hungry = input("Are you hungry? (yes/no): ").lower()
+spicy = input("Do you want something spicy? (yes/no): ").lower()
+vegetarian = input("Do you prefer vegetarian food? (yes/no): ").lower()
+healthy = input("Do you want healthy food? (yes/no): ").lower()
+
+if hungry == "yes":
+    if spicy == "yes":
+        if vegetarian == "yes":
+            food = "Paneer Biryani"
+        else:
+            food = "Chicken Biryani"
+    else:
+        if healthy == "yes":
+            food = "Salad"
+        else:
+            food = "Burger"
+else:
+    food = "Tea / Coffee"
+
+print("\nFood Recommendation:", food)
