@@ -1,0 +1,25 @@
+
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+
+data = {
+    "income": [50000, 20000, 60000, 25000, 70000, 30000],
+    "credit_score": [720, 600, 750, 580, 780, 610],
+    "loan_amount": [200000, 100000, 250000, 120000, 300000, 130000],
+    "approved": [1, 0, 1, 0, 1, 0]
+}
+
+df = pd.DataFrame(data)
+X = df.drop("approved", axis=1)
+y = df["approved"]
+
+lr = LogisticRegression()
+knn = KNeighborsClassifier(n_neighbors=3)
+
+lr.fit(X, y)
+knn.fit(X, y)
+
+print("LR Accuracy:", accuracy_score(y, lr.predict(X)))
+print("KNN Accuracy:", accuracy_score(y, knn.predict(X)))
