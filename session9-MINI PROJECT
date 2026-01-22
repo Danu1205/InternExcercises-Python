@@ -1,0 +1,76 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
+
+
+#Fruits Dataset
+data = {
+    "weight": [150, 170, 160, 120, 110, 115, 180, 175, 140],
+    "size": [7, 8, 7.5, 6, 5.5, 5.8, 8.2, 8, 6.5],
+    "sweetness": [6, 7, 6.5, 8, 9, 8.5, 5.5, 6, 7.5],
+    "fruit": ["apple", "apple", "apple",
+              "banana", "banana", "banana",
+              "orange", "orange", "orange"]
+}
+
+df = pd.DataFrame(data)
+
+
+# Encode Target Labels
+df["fruit"] = df["fruit"].map({
+    "apple": 0,
+    "banana": 1,
+    "orange": 2
+})
+
+X = df.drop("fruit", axis=1)
+y = df["fruit"]
+
+
+# Train Test Split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+
+#Train Logistic Regression Model
+lr = LogisticRegression(max_iter=200)
+lr.fit(X_train, y_train)
+
+y_pred_lr = lr.predict(X_test)
+
+print("LOGISTIC REGRESSION RESULTS")
+print("Accuracy:", accuracy_score(y_test, y_pred_lr))
+print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred_lr))
+print("Classification Report:\n", classification_report(y_test, y_pred_lr))
+
+
+#Train KNN Models with Different K Values
+k_values = [3, 5, 7]
+knn_models = {}
+
+for k in k_values:
+    model = KNeighborsClassifier(n_neighbors=k)
+    model.fit(X_train, y_train)
+    knn_models[k] = model
+
+
+# Evaluate KNN Models
+print("\nKNN RESULTS")
+
+for k, model in knn_models.items():
+    y_pred = model.predict(X_test)
+    print(f"\nK = {k}")
+    print("Accuracy:", accuracy_score(y_test, y_pred))
+    print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+    print("Classification Report:\n", classification_report(y_test, y_pred))
+
+
+#Compare Best Models
+best_knn = knn_models[3]
+
+print("\nFINAL MODEL COMPARISON")
+print("Logistic Regression Accuracy:", accuracy_score(y_test, y_pred_lr))
+print("Best KNN Accuracy:", accuracy_score(y_test, best_knn.predict(X_test)))
