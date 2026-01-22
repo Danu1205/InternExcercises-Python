@@ -1,0 +1,20 @@
+import pandas as pd
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+
+data = {
+    "monthly_charges": [80, 30, 90, 25, 85, 40, 95, 35],
+    "contract_months": [2, 24, 1, 36, 3, 18, 1, 30],
+    "complaints": [3, 0, 4, 0, 2, 1, 5, 0],
+    "churn": [1, 0, 1, 0, 1, 0, 1, 0]
+}
+
+df = pd.DataFrame(data)
+X = df.drop("churn", axis=1)
+y = df["churn"]
+
+model = KNeighborsClassifier(n_neighbors=3)
+model.fit(X, y)
+
+y_pred = model.predict(X)
+print("Accuracy:", accuracy_score(y, y_pred))
