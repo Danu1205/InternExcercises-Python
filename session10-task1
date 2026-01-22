@@ -1,0 +1,56 @@
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.preprocessing import LabelEncoder
+from sklearn import tree
+import matplotlib.pyplot as plt
+
+#Load Dataset
+df = pd.read_csv("titanic.csv")
+
+#Data Cleaning
+df["Age"].fillna(df["Age"].median(), inplace=True)
+df["Fare"].fillna(df["Fare"].median(), inplace=True)
+
+df.drop(columns=["Cabin", "Name", "Ticket"], inplace=True)
+
+
+#Encode Categorical Data
+le = LabelEncoder()
+df["Sex"] = le.fit_transform(df["Sex"])
+df["Embarked"] = le.fit_transform(df["Embarked"].fillna("S"))
+
+
+#Feature Selection
+X = df[["Pclass", "Sex", "Age", "Fare"]]
+y = df["Survived"]
+
+
+#Train Test Split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+#Train Decision Tree Model
+model = DecisionTreeClassifier(max_depth=4, random_state=42)
+model.fit(X_train, y_train)
+
+
+#Evaluate Model
+y_pred = model.predict(X_test)
+
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+
+
+#Visualize Decision Tree
+plt.figure(figsize=(18, 10))
+tree.plot_tree(
+    model,
+    feature_names=X.columns,
+    class_names=["Not Survived", "Survived"],
+    filled=True
+)
+plt.show()
