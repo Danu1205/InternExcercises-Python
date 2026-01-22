@@ -1,0 +1,56 @@
+import pandas as pd
+import numpy as np
+
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+#Load Iris Dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+#Train Test Split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+
+#Train Logistic Regression
+lr = LogisticRegression(max_iter=200)
+lr.fit(X_train, y_train)
+
+#Evaluate Logistic Regression
+y_pred_lr = lr.predict(X_test)
+
+print("LOGISTIC REGRESSION RESULTS")
+print("Accuracy:", accuracy_score(y_test, y_pred_lr))
+print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred_lr))
+print("Classification Report:\n", classification_report(y_test, y_pred_lr))
+
+#Train KNN Models (k = 3,5,7,11)
+k_values = [3, 5, 7, 11]
+knn_models = {}
+for k in k_values:
+    model = KNeighborsClassifier(n_neighbors=k)
+    model.fit(X_train, y_train)
+    knn_models[k] = model
+
+#Evaluate KNN Models
+print("\nKNN RESULTS")
+for k, model in knn_models.items():
+    y_pred_knn = model.predict(X_test)
+    acc = accuracy_score(y_test, y_pred_knn)
+    print(f"K = {k} | Accuracy = {acc}")
+
+#Confusion Matrix
+best_k = 3
+y_pred_best_knn = knn_models[best_k].predict(X_test)
+
+print(f"\nCONFUSION MATRIX FOR KNN (K = {best_k})")
+print("--------------------------------------")
+print(confusion_matrix(y_test, y_pred_best_knn))
+print("Classification Report:\n",
+      classification_report(y_test, y_pred_best_knn))
