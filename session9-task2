@@ -1,0 +1,66 @@
+#Given Actual and Predicted Labels
+actual = [1, 0, 1, 1, 0, 0, 1]
+predicted = [1, 0, 0, 1, 0, 1, 1]
+
+
+#Manual Confusion Matrix Calculation
+TP, TN, FP, FN = 0, 0, 0, 0
+
+for a, p in zip(actual, predicted):
+    if a == 1 and p == 1:
+        TP += 1
+    elif a == 0 and p == 0:
+        TN += 1
+    elif a == 0 and p == 1:
+        FP += 1
+    elif a == 1 and p == 0:
+        FN += 1
+
+print("MANUAL CONFUSION MATRIX COUNTS")
+print("TP:", TP)
+print("TN:", TN)
+print("FP:", FP)
+print("FN:", FN)
+
+
+#Manual Metric Calculations
+accuracy = (TP + TN) / (TP + TN + FP + FN)
+precision = TP / (TP + FP)
+recall = TP / (TP + FN)
+f1_score = 2 * precision * recall / (precision + recall)
+
+print("\nMANUAL METRICS")
+print("Accuracy:", accuracy)
+print("Precision:", precision)
+print("Recall:", recall)
+print("F1 Score:", f1_score)
+
+
+#Verify Using sklearn
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+
+print("\nSKLEARN VERIFICATION")
+print("Confusion Matrix:\n", confusion_matrix(actual, predicted))
+print("Accuracy:", accuracy_score(actual, predicted))
+print("Precision:", precision_score(actual, predicted))
+print("Recall:", recall_score(actual, predicted))
+print("F1 Score:", f1_score(actual, predicted))
+
+
+#Student Challenge Confusion Matrix
+# Given Matrix:
+#        P0   P1
+# A0    50   10
+# A1     8   32
+
+TN, FP = 50, 10
+FN, TP = 8, 32
+
+accuracy_ch = (TP + TN) / (TP + TN + FP + FN)
+precision_ch = TP / (TP + FP)
+recall_ch = TP / (TP + FN)
+
+print("\nSTUDENT CHALLENGE RESULTS")
+print("Accuracy:", accuracy_ch)
+print("Precision (Class 1):", precision_ch)
+print("Recall (Class 1):", recall_ch)
