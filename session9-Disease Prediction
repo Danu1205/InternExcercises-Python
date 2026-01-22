@@ -1,0 +1,22 @@
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import recall_score, precision_score
+
+data = {
+    "glucose": [150, 90, 180, 85, 200, 95, 170, 88],
+    "bmi": [32, 21, 35, 22, 38, 24, 34, 23],
+    "age": [45, 25, 50, 23, 55, 28, 48, 26],
+    "diabetes": [1, 0, 1, 0, 1, 0, 1, 0]
+}
+
+df = pd.DataFrame(data)
+X = df.drop("diabetes", axis=1)
+y = df["diabetes"]
+
+model = LogisticRegression()
+model.fit(X, y)
+
+y_pred = model.predict(X)
+
+print("Precision:", precision_score(y, y_pred))
+print("Recall:", recall_score(y, y_pred))
