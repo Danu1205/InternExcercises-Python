@@ -1,0 +1,64 @@
+dataset = [
+    [2.5, 1.0, 0],
+    [1.5, 2.0, 0],
+    [3.5, 0.5, 1],
+    [3.0, 1.5, 1],
+    [2.0, 2.5, 0]
+]
+
+
+# Calculate Gini Impurity
+def calculate_gini(groups):
+    total_samples = sum(len(group) for group in groups)
+    gini = 0.0
+
+    for group in groups:
+        size = len(group)
+        if size == 0:
+            continue
+
+        score = 0.0
+        labels = [row[-1] for row in group]
+        for class_val in set(labels):
+            p = labels.count(class_val) / size
+            score += p * p
+
+        gini += (1 - score) * (size / total_samples)
+
+    return gini
+
+
+# Split Dataset Based on Feature and Threshold
+def split_dataset(index, threshold, dataset):
+    left, right = [], []
+    for row in dataset:
+        if row[index] < threshold:
+            left.append(row)
+        else:
+            right.append(row)
+    return left, right
+
+
+# Find Best Split
+def best_split(dataset):
+    best_index, best_value, best_gini = None, None, float("inf")
+    num_features = len(dataset[0]) - 1
+
+    for index in range(num_features):
+        values = set(row[index] for row in dataset)
+        for value in values:
+            groups = split_dataset(index, value, dataset)
+            gini = calculate_gini(groups)
+
+            if gini < best_gini:
+                best_index, best_value, best_gini = index, value, gini
+
+    return best_index, best_value, best_gini
+
+
+# Execute Best Split Search
+feature_index, threshold, gini_value = best_split(dataset)
+
+print("Best Feature Index:", feature_index)
+print("Best Threshold:", threshold)
+print("Best Gini Impurity:", gini_value)
