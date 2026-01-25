@@ -6,7 +6,7 @@ from sklearn import tree
 import matplotlib.pyplot as plt
 
 
-# Ecommerce Dataset
+# Ecommerce Dataset 
 data = {
     "Time_on_Site": [2, 5, 10, 1, 8, 12, 3, 9],
     "Pages_Visited": [3, 8, 15, 2, 12, 18, 4, 14],
