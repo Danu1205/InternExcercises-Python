@@ -1,0 +1,37 @@
+# Input Features
+mood = input("What is your mood? (happy/sad/stressed): ").lower()
+time_available = int(input("How much time do you have? (minutes): "))
+genre_preference = input("Preferred genre? (action/comedy/drama/horror): ").lower()
+popular = input("Do you want something popular? (yes/no): ").lower()
+
+
+# Decision Tree Recommendation Logic
+if mood == "happy":
+    if genre_preference == "comedy":
+        recommendation = "Watch a Comedy Movie"
+    elif genre_preference == "action":
+        recommendation = "Watch an Action Adventure Film"
+    else:
+        recommendation = "Watch a Feel-Good Drama"
+
+elif mood == "sad":
+    if popular == "yes":
+        recommendation = "Watch an Inspirational Popular Movie"
+    else:
+        recommendation = "Watch a Light Romantic Film"
+
+elif mood == "stressed":
+    if time_available < 60:
+        recommendation = "Watch a Short Sitcom Episode"
+    else:
+        if genre_preference == "horror":
+            recommendation = "Watch a Thriller / Horror Movie"
+        else:
+            recommendation = "Watch a Relaxing Web Series"
+
+else:
+    recommendation = "Watch something trending on Netflix"
+
+
+# Output Recommendation
+print("\nMOVIE / SHOW RECOMMENDATION:", recommendation)
