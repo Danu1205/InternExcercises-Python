@@ -1,0 +1,28 @@
+# Input Features
+duration = int(input("Enter movie duration in minutes: "))
+popularity = input("Is the actor popular? (yes/no): ").lower()
+budget = input("Is the movie budget high? (yes/no): ").lower()
+year = int(input("Enter release year: "))
+
+
+# Manual Decision Tree Logic
+if duration > 150:
+    if budget == "yes":
+        genre = "Action / Epic"
+    else:
+        genre = "Drama"
+else:
+    if popularity == "yes":
+        if year >= 2020:
+            genre = "Modern Comedy / Romance"
+        else:
+            genre = "Classic Comedy"
+    else:
+        if budget == "yes":
+            genre = "Sci-Fi / Thriller"
+        else:
+            genre = "Independent / Art Film"
+
+
+# Output Prediction
+print("\nPredicted Movie Genre:", genre)
