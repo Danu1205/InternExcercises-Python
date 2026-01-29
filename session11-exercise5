@@ -1,0 +1,14 @@
+df = pd.DataFrame({
+    "Posts": [10, 2, 7, 1],
+    "Likes": [500, 50, 300, 20],
+    "Shares": [200, 10, 100, 5],
+    "Comments": [80, 5, 40, 2],
+    "WatchTime": [300, 50, 200, 30]
+})
+
+X_scaled = StandardScaler().fit_transform(df)
+
+kmeans = KMeans(n_clusters=3)
+df["Cluster"] = kmeans.fit_predict(X_scaled)
+
+print(df)
