@@ -1,0 +1,18 @@
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.cluster import KMeans
+
+docs = [
+    "Politics election government",
+    "Football match sports win",
+    "AI technology innovation",
+    "Basketball sports team",
+    "New smartphone technology launch"
+]
+
+tfidf = TfidfVectorizer()
+X = tfidf.fit_transform(docs)
+
+kmeans = KMeans(n_clusters=3, random_state=0)
+labels = kmeans.fit_predict(X)
+
+print("News Clusters:", labels)
