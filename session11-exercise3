@@ -1,0 +1,20 @@
+import numpy as np
+
+# Standardize Data
+X = np.array([[2,3],[3,4],[5,6],[8,9]])
+X_meaned = X - np.mean(X, axis=0)
+
+# Covariance Matrix
+cov_matrix = np.cov(X_meaned, rowvar=False)
+
+# Eigen Decomposition
+eigen_values, eigen_vectors = np.linalg.eigh(cov_matrix)
+
+# Sort Eigenvectors
+sorted_index = np.argsort(eigen_values)[::-1]
+sorted_vectors = eigen_vectors[:, sorted_index]
+
+# Reduce to 2D
+X_reduced = np.dot(X_meaned, sorted_vectors[:, :2])
+
+print("Reduced Data:\n", X_reduced)
