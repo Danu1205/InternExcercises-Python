@@ -1,0 +1,35 @@
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+
+# Load dataset
+df = pd.read_csv("customers.csv")
+
+# Scale
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(df)
+
+# Elbow
+sse = []
+for k in range(1, 11):
+    km = KMeans(n_clusters=k)
+    km.fit(X_scaled)
+    sse.append(km.inertia_)
+
+plt.plot(range(1, 11), sse)
+plt.show()
+
+# Train Final Model
+kmeans = KMeans(n_clusters=4)
+df["Cluster"] = kmeans.fit_predict(X_scaled)
+
+# PCA Visualization
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X_scaled)
+
+plt.scatter(X_pca[:, 0], X_pca[:, 1], c=df["Cluster"])
+plt.show()
+
+print(df.head())
