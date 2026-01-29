@@ -1,0 +1,19 @@
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+def elbow_method(X):
+    sse = []
+
+    for k in range(1, 11):
+        model = KMeans(n_clusters=k, random_state=0)
+        model.fit(X)
+        sse.append(model.inertia_)
+
+    plt.plot(range(1, 11), sse)
+    plt.title("Elbow Method Curve")
+    plt.xlabel("Number of Clusters")
+    plt.ylabel("Inertia")
+    plt.show()
+
+# Call Example
+elbow_method(X_scaled)
