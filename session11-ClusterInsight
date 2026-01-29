@@ -1,0 +1,12 @@
+# Highest Spending Cluster
+highest_spenders = df.groupby("Cluster")["Spending_Score"].mean().idxmax()
+print("Highest Spending Cluster =", highest_spenders)
+
+# Low Income but High Spend Anomalies
+anomalies = df[(df["Annual_Income"] < 50) & (df["Spending_Score"] > 70)]
+print("\nLow-Income High-Spend Customers:\n", anomalies)
+
+# Marketing Strategy (Basic Example)
+for cluster in df["Cluster"].unique():
+    print(f"\nCluster {cluster} Strategy:")
+    print("-> Offer customized discounts and loyalty rewards")
